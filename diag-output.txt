@@ -1,0 +1,76 @@
+=== BUILD ERROR DIAGNOSTIC === 
+ 
+--- package.json dependencies --- 
+13:    "lucide-react": "^1.16.0",
+ 
+--- next.config.ts --- 
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+};
+
+export default nextConfig; 
+--- app/page.tsx first 10 lines --- 
+import Link from 'next/link'
+import { supabase } from '@/lib/supabase'
+import { ArrowRight, Plane, MapPin, TrendingUp, Check, Flame, Star, Trophy } from 'lucide-react'
+
+<force-dynamic></force-dynamic> revalidate = 60
+
+
+
+export default async function Home() {
+  const { data: allEvents } = await supabase
+ 
+--- BUILD OUTPUT --- 
+
+> elevensocial@0.1.0 build
+> next build
+
+⚠ `eslint` configuration in next.config.ts is no longer supported. See more info here: https://nextjs.org/docs/app/api-reference/cli/next#next-lint-options
+⚠ Invalid next.config.ts options detected: 
+⚠     Unrecognized key(s) in object: 'eslint'
+⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+▲ Next.js 16.2.6 (Turbopack)
+- Environments: .env.local
+
+  Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build failed with 2 errors:
+./app/events/page.tsx:4:33
+Expected ';', '}' or <eof>
+  [90m2 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m'next/link'[0m
+  [90m3 |[0m
+[31m[1m>[0m [90m4 |[0m <force-dynamic></force-dynamic> revalidate = [35m60[0m
+  [90m  |[0m                                 [31m[1m^^^^^^^^^^[0m
+  [90m5 |[0m
+  [90m6 |[0m
+  [90m7 |[0m [36mexport[0m [36mdefault[0m [36masync[0m [36mfunction[0m [33mEventsPage[0m() {
+
+Parsing ecmascript source code failed
+
+
+./app/page.tsx:5:33
+Expected ';', '}' or <eof>
+  [90m3 |[0m [36mimport[0m { [33mArrowRight[0m, [33mPlane[0m, [33mMapPin[0m, [33mTrendingUp[0m, [33mCheck[0m, [33mFlame[0m, [33mStar[0m, [33mTrophy[0m } [36mfrom[0m [32m'lucide-r...[0m
+  [90m4 |[0m
+[31m[1m>[0m [90m5 |[0m <force-dynamic></force-dynamic> revalidate = [35m60[0m
+  [90m  |[0m                                 [31m[1m^^^^^^^^^^[0m
+  [90m6 |[0m
+  [90m7 |[0m
+  [90m8 |[0m
+
+Parsing ecmascript source code failed
+
+
+    at <unknown> (./app/events/page.tsx:4:33)
+    at <unknown> (./app/page.tsx:5:33)
+ 
+=== END === 

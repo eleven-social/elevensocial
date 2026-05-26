@@ -2,9 +2,7 @@ import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { ArrowRight, Plane, MapPin, TrendingUp, Check, Flame, Star, Trophy } from 'lucide-react'
 
-<force-dynamic></force-dynamic> revalidate = 60
-
-
+export const dynamic = 'force-dynamic'
 
 export default async function Home() {
   const { data: allEvents } = await supabase
@@ -236,3 +234,4 @@ function Card({ num, title, desc }: { num: string; title: string; desc: string }
     </div>
   )
 }
+
