@@ -21,12 +21,12 @@ import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { ArrowRight, Plane, MapPin, TrendingUp, Check, Flame, Star, Trophy } from 'lucide-react'
 
-<force-dynamic></force-dynamic> revalidate = 60
-
-
+export const dynamic = 'force-dynamic'
 
 export default async function Home() {
   const { data: allEvents } = await supabase
+    .from('events')
+    .select('*')
  
 --- BUILD OUTPUT --- 
 
@@ -41,36 +41,22 @@ export default async function Home() {
 - Environments: .env.local
 
   Creating an optimized production build ...
+✓ Compiled successfully in 2.6s
+  Skipping validation of types
+  Finished TypeScript config validation in 6ms ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/3) ...
+✓ Generating static pages using 6 workers (3/3) in 521ms
+  Finalizing page optimization ...
 
-> Build error occurred
-Error: Turbopack build failed with 2 errors:
-./app/events/page.tsx:4:33
-Expected ';', '}' or <eof>
-  [90m2 |[0m [36mimport[0m [33mLink[0m [36mfrom[0m [32m'next/link'[0m
-  [90m3 |[0m
-[31m[1m>[0m [90m4 |[0m <force-dynamic></force-dynamic> revalidate = [35m60[0m
-  [90m  |[0m                                 [31m[1m^^^^^^^^^^[0m
-  [90m5 |[0m
-  [90m6 |[0m
-  [90m7 |[0m [36mexport[0m [36mdefault[0m [36masync[0m [36mfunction[0m [33mEventsPage[0m() {
-
-Parsing ecmascript source code failed
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+└ ƒ /events
 
 
-./app/page.tsx:5:33
-Expected ';', '}' or <eof>
-  [90m3 |[0m [36mimport[0m { [33mArrowRight[0m, [33mPlane[0m, [33mMapPin[0m, [33mTrendingUp[0m, [33mCheck[0m, [33mFlame[0m, [33mStar[0m, [33mTrophy[0m } [36mfrom[0m [32m'lucide-r...[0m
-  [90m4 |[0m
-[31m[1m>[0m [90m5 |[0m <force-dynamic></force-dynamic> revalidate = [35m60[0m
-  [90m  |[0m                                 [31m[1m^^^^^^^^^^[0m
-  [90m6 |[0m
-  [90m7 |[0m
-  [90m8 |[0m
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
 
-Parsing ecmascript source code failed
-
-
-    at <unknown> (./app/events/page.tsx:4:33)
-    at <unknown> (./app/page.tsx:5:33)
  
 === END === 

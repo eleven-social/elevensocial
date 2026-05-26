@@ -1,8 +1,7 @@
 import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
 
-<force-dynamic></force-dynamic> revalidate = 60
-
+export const dynamic = 'force-dynamic'
 
 export default async function EventsPage() {
   const { data: events } = await supabase
@@ -77,3 +76,4 @@ export default async function EventsPage() {
     </div>
   )
 }
+
