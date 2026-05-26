@@ -1,16 +1,21 @@
+import Link from 'next/link'
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
       <header className="flex items-center justify-between px-6 py-4 border-b border-zinc-800">
-        <div className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center">
             <span className="text-white font-serif text-xl font-bold">11</span>
           </div>
           <span className="font-bold text-lg">Eleven-Social</span>
-        </div>
-        <button className="text-sm font-medium hover:text-red-500 transition">
+        </Link>
+        <Link
+          href="/host"
+          className="text-sm font-medium hover:text-red-500 transition"
+        >
           Host Event
-        </button>
+        </Link>
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center px-6 text-center">
@@ -27,12 +32,22 @@ export default function Home() {
             placeholder="Enter your zip code"
             className="flex-1 px-4 py-3 rounded-lg bg-zinc-900 border border-zinc-800 text-white placeholder-zinc-500 focus:outline-none focus:border-red-600 transition"
           />
-          <button className="px-6 py-3 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition">
+          <Link
+            href="/events"
+            className="px-6 py-3 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition text-center"
+          >
             Find Events
-          </button>
+          </Link>
         </div>
 
-        <p className="text-sm text-zinc-500">
+        <Link
+          href="/events"
+          className="text-sm text-zinc-400 hover:text-white underline mb-4"
+        >
+          Or browse all events →
+        </Link>
+
+        <p className="text-sm text-zinc-500 mt-4">
           ⚽ World Cup starts June 11, 2026
         </p>
       </main>
