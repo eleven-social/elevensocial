@@ -1,14 +1,27 @@
-import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
 
 export default async function EventsPage() {
-  const { data: events } = await supabase
-    .from('events')
-    .select('*')
-    .eq('is_active', true)
-    .order('event_date_start', { ascending: true })
+  let events: any[] = []
+
+  try {
+    const { createClient } = await import('@supabase/supabase-js')
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+    if (supabaseUrl && supabaseKey) {
+      const supabase = createClient(supabaseUrl, supabaseKey)
+      const { data } = await supabase
+        .from('events')
+        .select('*')
+        .eq('is_active', true)
+        .order('event_date_start', { ascending: true })
+      events = data || []
+    }
+  } catch (e) {
+    events = []
+  }
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -27,13 +40,13 @@ export default async function EventsPage() {
       <section className="px-6 py-12 max-w-6xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold mb-2">Find Watch Parties</h1>
         <p className="text-zinc-400 text-lg">
-          {events?.length || 0} events across the country
+          {events.length} events across the country
         </p>
       </section>
 
       <section className="px-6 pb-16 max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {events?.map((event: any) => (
+          {events.map((event: any) => (
             <div
               key={event.id}
               className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 hover:border-red-600 transition"

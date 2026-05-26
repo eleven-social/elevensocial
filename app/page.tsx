@@ -1,16 +1,28 @@
 import Link from 'next/link'
-import { supabase } from '@/lib/supabase'
 import { ArrowRight, Plane, MapPin, TrendingUp, Check, Flame, Star, Trophy } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
 export default async function Home() {
-  const { data: allEvents } = await supabase
-    .from('events')
-    .select('*')
-    .eq('is_active', true)
+  let events: any[] = []
 
-  const events = allEvents || []
+  try {
+    const { createClient } = await import('@supabase/supabase-js')
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+    if (supabaseUrl && supabaseKey) {
+      const supabase = createClient(supabaseUrl, supabaseKey)
+      const { data } = await supabase
+        .from('events')
+        .select('*')
+        .eq('is_active', true)
+      events = data || []
+    }
+  } catch (e) {
+    events = []
+  }
+
   const cityCount = new Set(events.map((e: any) => e.city).filter(Boolean)).size
   const fanFestCount = events.filter((e: any) => e.type === 'fan_festival').length
   const foundingSlotsLeft = 25
