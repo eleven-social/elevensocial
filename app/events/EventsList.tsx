@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 
 export default function EventsList({ events }: { events: any[] }) {
   const [country, setCountry] = useState('All')
@@ -88,9 +89,10 @@ export default function EventsList({ events }: { events: any[] }) {
               const badge = typeBadge(event.type)
               const isFree = !event.price_cents || event.price_cents === 0
               return (
-                <div
+                <Link
                   key={event.id}
-                  className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 hover:border-red-600 transition"
+                  href={`/events/${event.id}`}
+                  className="block bg-zinc-900 border border-zinc-800 rounded-2xl p-6 hover:border-red-600 transition"
                 >
                   <div className="flex items-center gap-2 mb-3">
                     {isFree && (
@@ -109,19 +111,12 @@ export default function EventsList({ events }: { events: any[] }) {
                     {event.city}, {event.state}
                   </p>
                   <p className="text-zinc-400 text-sm mb-4">{event.match_info}</p>
-                  <p className="text-zinc-500 text-sm mb-4">{event.description}</p>
+                  <p className="text-zinc-500 text-sm mb-4 line-clamp-3">{event.description}</p>
 
-                  {event.registration_url && (
-                    <a
-                      href={event.registration_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block text-red-500 hover:text-red-400 text-sm font-medium"
-                    >
-                      Learn More
-                    </a>
-                  )}
-                </div>
+                  <span className="inline-block text-red-500 text-sm font-medium">
+                    View Details &rarr;
+                  </span>
+                </Link>
               )
             })}
           </div>
@@ -130,4 +125,3 @@ export default function EventsList({ events }: { events: any[] }) {
     </>
   )
 }
-
