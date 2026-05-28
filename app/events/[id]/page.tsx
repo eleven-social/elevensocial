@@ -28,8 +28,8 @@ export default async function EventDetail({ params }: { params: any }) {
 
   if (!event) {
     return (
-      <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center px-6">
-        <p className="text-zinc-400 mb-4">Event not found.</p>
+      <div className="min-h-screen bg-stone-950 text-stone-50 flex flex-col items-center justify-center px-6">
+        <p className="text-stone-400 mb-4">Event not found.</p>
         <Link href="/events" className="text-red-500 hover:text-red-400">
           Back to all events
         </Link>
@@ -66,23 +66,25 @@ export default async function EventDetail({ params }: { params: any }) {
       : fmtDate(event.event_date_start)
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <header className="border-b border-zinc-800 px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white text-lg font-bold">
-            11
-          </div>
-          <span className="font-bold text-xl">Eleven-Social</span>
-        </Link>
-        <Link href="/events" className="text-sm text-zinc-400 hover:text-white">
-          All Events
-        </Link>
+    <div className="min-h-screen bg-stone-950 text-stone-50">
+      <header className="sticky top-0 z-50 backdrop-blur-md bg-stone-950/80 border-b border-stone-800">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center shadow-lg shadow-red-600/30">
+              <span className="text-white font-display text-2xl">11</span>
+            </div>
+            <span className="font-display text-xl tracking-tight">ELEVEN-SOCIAL</span>
+          </Link>
+          <Link href="/events" className="font-headline text-sm text-stone-300 hover:text-white transition">
+            ALL EVENTS
+          </Link>
+        </div>
       </header>
 
-      <div className="bg-gradient-to-br from-red-700 to-red-900 px-6 py-12">
-        <div className="max-w-3xl mx-auto">
-          <Link href="/events" className="text-sm text-red-200 hover:text-white mb-6 inline-block">
-            &larr; Back to all events
+      <div className="bg-gradient-to-br from-red-700 to-red-900 px-6 py-12 grain">
+        <div className="max-w-3xl mx-auto relative">
+          <Link href="/events" className="font-mono text-xs text-red-200 hover:text-white mb-6 inline-block tracking-widest">
+            &larr; BACK TO ALL EVENTS
           </Link>
           <div className="flex items-center gap-2 mb-4">
             {isFree && (
@@ -94,37 +96,37 @@ export default async function EventDetail({ params }: { params: any }) {
               {typeLabel}
             </span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-2">{event.name}</h1>
+          <h1 className="font-display text-5xl md:text-6xl mb-2 leading-none">{event.name}</h1>
           <p className="text-xl text-red-100">{event.venue_name}</p>
         </div>
       </div>
 
       <div className="max-w-3xl mx-auto px-6 py-10 space-y-8">
         <div className="grid sm:grid-cols-2 gap-6">
-          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
-            <div className="text-xs uppercase tracking-widest text-zinc-500 mb-2">📍 Location</div>
-            <p className="text-zinc-200">
+          <div className="bg-stone-900 border border-stone-800 rounded-xl p-5">
+            <div className="font-mono text-xs uppercase tracking-widest text-red-500 mb-2">LOCATION</div>
+            <p className="text-stone-200">
               {event.address && <>{event.address}<br /></>}
               {event.city}, {event.state} {event.zip_code}
             </p>
           </div>
-          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
-            <div className="text-xs uppercase tracking-widest text-zinc-500 mb-2">📅 Dates</div>
-            <p className="text-zinc-200">{dateRange || 'During the tournament'}</p>
+          <div className="bg-stone-900 border border-stone-800 rounded-xl p-5">
+            <div className="font-mono text-xs uppercase tracking-widest text-red-500 mb-2">DATES</div>
+            <p className="text-stone-200">{dateRange || 'During the tournament'}</p>
           </div>
         </div>
 
         {event.match_info && (
-          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
-            <div className="text-xs uppercase tracking-widest text-zinc-500 mb-2">⚽ Matches</div>
-            <p className="text-zinc-200">{event.match_info}</p>
+          <div className="bg-stone-900 border border-stone-800 rounded-xl p-5">
+            <div className="font-mono text-xs uppercase tracking-widest text-red-500 mb-2">MATCHES</div>
+            <p className="text-stone-200">{event.match_info}</p>
           </div>
         )}
 
         {event.description && (
           <div>
-            <div className="text-xs uppercase tracking-widest text-zinc-500 mb-2">About</div>
-            <p className="text-zinc-300 leading-relaxed text-lg">{event.description}</p>
+            <div className="font-mono text-xs uppercase tracking-widest text-stone-500 mb-2">ABOUT</div>
+            <p className="text-stone-300 leading-relaxed text-lg">{event.description}</p>
           </div>
         )}
 
@@ -132,15 +134,15 @@ export default async function EventDetail({ params }: { params: any }) {
           href={mapsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="block bg-zinc-900 border border-zinc-800 rounded-xl p-6 hover:border-red-600 transition group"
+          className="block bg-stone-900 border border-stone-800 rounded-xl p-6 hover:border-red-600 transition group"
         >
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-lg font-semibold mb-1">📍 {event.venue_name}</div>
-              <p className="text-zinc-400 text-sm">{event.city}, {event.state}</p>
+              <div className="font-display text-xl mb-1">{event.venue_name}</div>
+              <p className="text-stone-400 text-sm">{event.city}, {event.state}</p>
             </div>
-            <span className="text-red-500 group-hover:text-red-400 font-medium text-sm whitespace-nowrap">
-              Open in Maps &rarr;
+            <span className="text-red-500 group-hover:text-red-400 font-headline text-sm whitespace-nowrap">
+              OPEN IN MAPS &rarr;
             </span>
           </div>
         </a>
@@ -150,25 +152,27 @@ export default async function EventDetail({ params }: { params: any }) {
             href={mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-zinc-800 hover:bg-zinc-700 text-white px-6 py-3 rounded-lg font-medium transition"
+            className="bg-stone-800 hover:bg-stone-700 text-white px-6 py-3 rounded-lg font-headline transition"
           >
-            Get Directions
+            GET DIRECTIONS
           </a>
           {event.registration_url && (
             <a
               href={event.registration_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-red-600 hover:bg-red-500 text-white px-6 py-3 rounded-lg font-medium transition"
+              className="bg-red-600 hover:bg-red-500 text-white px-6 py-3 rounded-lg font-headline transition"
             >
-              Learn More / Register
+              LEARN MORE / REGISTER
             </a>
           )}
         </div>
       </div>
 
-      <footer className="border-t border-zinc-800 px-6 py-6 text-center text-zinc-500 text-sm mt-10">
-        2026 Eleven-Social
+      <footer className="bg-stone-950 border-t border-stone-800 py-8 text-center mt-10">
+        <div className="font-mono text-xs tracking-[0.3em] text-stone-500">
+          2026 ELEVEN-SOCIAL. EVERY MATCH. EVERY VIBE.
+        </div>
       </footer>
     </div>
   )

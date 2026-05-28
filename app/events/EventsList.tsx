@@ -31,16 +31,23 @@ export default function EventsList({ events }: { events: any[] }) {
   function typeBadge(type: string) {
     if (type === 'bar') return { label: 'Bar', color: 'bg-blue-600' }
     if (type === 'watch_party') return { label: 'Watch Party', color: 'bg-purple-600' }
-    return { label: 'Fan Festival', color: 'bg-zinc-700' }
+    return { label: 'Fan Festival', color: 'bg-stone-700' }
   }
 
   return (
     <>
       <section className="px-6 py-12 max-w-6xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold mb-2">Find Watch Parties</h1>
-        <p className="text-zinc-400 text-lg mb-8">
+        <div className="font-mono text-xs tracking-[0.3em] text-red-500 mb-4">
+          // FIND YOUR EVENT
+        </div>
+        <h1 className="font-display text-5xl md:text-7xl mb-3 leading-none">
+          WATCH PARTIES
+        </h1>
+        <p className="text-stone-400 text-lg mb-8">
           {filtered.length} events{' '}
-          {country !== 'All' ? `in ${country.replace('USA', 'the USA')}` : 'across 3 countries'}
+          {country !== 'All'
+            ? `in ${country.replace('USA', 'the USA')}`
+            : 'across 3 countries'}
         </p>
 
         <div className="flex flex-wrap gap-3 mb-6">
@@ -48,10 +55,10 @@ export default function EventsList({ events }: { events: any[] }) {
             <button
               key={c.key}
               onClick={() => setCountry(c.key)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition ${
+              className={`font-headline px-5 py-2 rounded-full text-sm transition ${
                 country === c.key
                   ? 'bg-red-600 text-white'
-                  : 'bg-zinc-900 border border-zinc-700 text-zinc-300 hover:border-red-600'
+                  : 'bg-stone-900 border border-stone-700 text-stone-300 hover:border-red-600'
               }`}
             >
               {c.label}
@@ -65,14 +72,14 @@ export default function EventsList({ events }: { events: any[] }) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by city or state (e.g. Seattle, TX, Miami)"
-            className="w-full max-w-md bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-white placeholder-zinc-500 focus:border-red-600 focus:outline-none"
+            className="w-full max-w-md bg-stone-900 border border-stone-700 rounded-lg px-4 py-3 text-white placeholder-stone-500 focus:border-red-600 focus:outline-none"
           />
           {search.trim().length > 0 && (
             <button
               onClick={() => setSearch('')}
-              className="ml-3 text-sm text-zinc-400 hover:text-white"
+              className="ml-3 font-mono text-sm text-stone-400 hover:text-white"
             >
-              Clear
+              CLEAR
             </button>
           )}
         </div>
@@ -80,7 +87,7 @@ export default function EventsList({ events }: { events: any[] }) {
 
       <section className="px-6 pb-16 max-w-6xl mx-auto">
         {filtered.length === 0 ? (
-          <p className="text-zinc-400">
+          <p className="text-stone-400">
             No events found for that search. Try a different city or country.
           </p>
         ) : (
@@ -92,7 +99,7 @@ export default function EventsList({ events }: { events: any[] }) {
                 <Link
                   key={event.id}
                   href={`/events/${event.id}`}
-                  className="block bg-zinc-900 border border-zinc-800 rounded-2xl p-6 hover:border-red-600 transition"
+                  className="block bg-stone-900 border border-stone-800 rounded-2xl p-6 hover:border-red-600 transition"
                 >
                   <div className="flex items-center gap-2 mb-3">
                     {isFree && (
@@ -105,16 +112,16 @@ export default function EventsList({ events }: { events: any[] }) {
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-bold mb-1">{event.name}</h3>
-                  <p className="text-zinc-400 text-sm mb-3">{event.venue_name}</p>
-                  <p className="text-zinc-300 text-sm mb-2">
+                  <h3 className="font-display text-2xl mb-1 leading-tight">{event.name}</h3>
+                  <p className="text-stone-400 text-sm mb-3">{event.venue_name}</p>
+                  <p className="text-stone-300 text-sm mb-2">
                     {event.city}, {event.state}
                   </p>
-                  <p className="text-zinc-400 text-sm mb-4">{event.match_info}</p>
-                  <p className="text-zinc-500 text-sm mb-4 line-clamp-3">{event.description}</p>
+                  <p className="text-stone-400 text-sm mb-4">{event.match_info}</p>
+                  <p className="text-stone-500 text-sm mb-4 line-clamp-3">{event.description}</p>
 
-                  <span className="inline-block text-red-500 text-sm font-medium">
-                    View Details &rarr;
+                  <span className="font-headline inline-block text-red-500 text-sm">
+                    VIEW DETAILS &rarr;
                   </span>
                 </Link>
               )
