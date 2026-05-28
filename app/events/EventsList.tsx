@@ -1,0 +1,133 @@
+'use client'
+
+import { useState } from 'react'
+
+export default function EventsList({ events }: { events: any[] }) {
+  const [country, setCountry] = useState('All')
+  const [search, setSearch] = useState('')
+
+  let filtered = events
+  if (country !== 'All') {
+    filtered = filtered.filter((e) => (e.country || 'USA') === country)
+  }
+  if (search.trim().length > 0) {
+    const q = search.trim().toLowerCase()
+    filtered = filtered.filter(
+      (e) =>
+        (e.city || '').toLowerCase().includes(q) ||
+        (e.state || '').toLowerCase().includes(q) ||
+        (e.name || '').toLowerCase().includes(q)
+    )
+  }
+
+  const countries = [
+    { key: 'All', label: 'All' },
+    { key: 'USA', label: '🇺🇸 USA' },
+    { key: 'Canada', label: '🇨🇦 Canada' },
+    { key: 'Mexico', label: '🇲🇽 Mexico' },
+  ]
+
+  function typeBadge(type: string) {
+    if (type === 'bar') return { label: 'Bar', color: 'bg-blue-600' }
+    if (type === 'watch_party') return { label: 'Watch Party', color: 'bg-purple-600' }
+    return { label: 'Fan Festival', color: 'bg-zinc-700' }
+  }
+
+  return (
+    <>
+      <section className="px-6 py-12 max-w-6xl mx-auto">
+        <h1 className="text-4xl md:text-5xl font-bold mb-2">Find Watch Parties</h1>
+        <p className="text-zinc-400 text-lg mb-8">
+          {filtered.length} events{' '}
+          {country !== 'All' ? `in ${country.replace('USA', 'the USA')}` : 'across 3 countries'}
+        </p>
+
+        <div className="flex flex-wrap gap-3 mb-6">
+          {countries.map((c) => (
+            <button
+              key={c.key}
+              onClick={() => setCountry(c.key)}
+              className={`px-5 py-2 rounded-full text-sm font-medium transition ${
+                country === c.key
+                  ? 'bg-red-600 text-white'
+                  : 'bg-zinc-900 border border-zinc-700 text-zinc-300 hover:border-red-600'
+              }`}
+            >
+              {c.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="mb-4">
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by city or state (e.g. Seattle, TX, Miami)"
+            className="w-full max-w-md bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-white placeholder-zinc-500 focus:border-red-600 focus:outline-none"
+          />
+          {search.trim().length > 0 && (
+            <button
+              onClick={() => setSearch('')}
+              className="ml-3 text-sm text-zinc-400 hover:text-white"
+            >
+              Clear
+            </button>
+          )}
+        </div>
+      </section>
+
+      <section className="px-6 pb-16 max-w-6xl mx-auto">
+        {filtered.length === 0 ? (
+          <p className="text-zinc-400">
+            No events found for that search. Try a different city or country.
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filtered.map((event: any) => {
+              const badge = typeBadge(event.type)
+              const isFree = !event.price_cents || event.price_cents === 0
+              return (
+                <div
+                  key={event.id}
+                  className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 hover:border-red-600 transition"
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    {isFree && (
+                      <span className="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">
+                        FREE
+                      </span>
+                    )}
+                    <span className={`${badge.color} text-white text-xs px-2 py-1 rounded`}>
+                      {badge.label}
+                    </span>
+                  </div>
+
+                  <h3 className="text-xl font-bold mb-1">{event.name}</h3>
+                  <p className="text-zinc-400 text-sm mb-3">{event.venue_name}</p>
+                  <p className="text-zinc-300 text-sm mb-2">
+                    {event.city}, {event.state}
+                  </p>
+                  <p className="text-zinc-400 text-sm mb-4">{event.match_info}</p>
+                  <p className="text-zinc-500 text-sm mb-4">{event.description}</p>
+
+                  {event.registration_url && (
+                    <a
+                      href={event.registration_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block text-red-500 hover:text-red-400 text-sm font-medium"
+                    >
+                      Learn More
+                    </a>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </section>
+    </>
+  )
+}
+

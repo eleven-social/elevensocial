@@ -1,51 +1,48 @@
-'use client'
+import Link from 'next/link'
+import EventsList from './EventsList'
 
-import { useState } from 'react'
+export const dynamic = 'force-dynamic'
 
-export default function EventsList({ events }: { events: any[] }) {
-  const [country, setCountry] = useState('All')
-  const [search, setSearch] = useState('')
+export default async function EventsPage() {
+  let events: any[] = []
 
-  let filtered = events
-  if (country !== 'All') {
-    filtered = filtered.filter((e) => (e.country || 'USA') === country)
-  }
-  if (search.trim().length > 0) {
-    const q = search.trim().toLowerCase()
-    filtered = filtered.filter(
-      (e) =>
-        (e.city || '').toLowerCase().includes(q) ||
-        (e.state || '').toLowerCase().includes(q) ||
-        (e.name || '').toLowerCase().includes(q)
-    )
-  }
+  try {
+    const { createClient } = await import('@supabase/supabase-js')
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-  const countries = [
-    { key: 'All', label: 'All' },
-    { key: 'USA', label: '🇺🇸 USA' },
-    { key: 'Canada', label: '🇨🇦 Canada' },
-    { key: 'Mexico', label: '🇲🇽 Mexico' },
-  ]
-
-  function typeBadge(type: string) {
-    if (type === 'bar') return { label: 'Bar', color: 'bg-blue-600' }
-    if (type === 'watch_party') return { label: 'Watch Party', color: 'bg-purple-600' }
-    return { label: 'Fan Festival', color: 'bg-zinc-700' }
+    if (supabaseUrl && supabaseKey) {
+      const supabase = createClient(supabaseUrl, supabaseKey)
+      const { data } = await supabase
+        .from('events')
+        .select('*')
+        .eq('is_active', true)
+        .order('event_date_start', { ascending: true })
+      events = data || []
+    }
+  } catch (e) {
+    events = []
   }
 
   return (
-    <>
-      <section className="px-6 py-12 max-w-6xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold mb-2">Find Watch Parties</h1>
-        <p className="text-zinc-400 text-lg mb-8">
-          {filtered.length} events{' '}
-          {country !== 'All' ? `in ${country.replace('USA', 'the USA')}` : 'across 3 countries'}
-        </p>
+    <div className="min-h-screen bg-black text-white">
+      <header className="border-b border-zinc-800 px-6 py-4 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white text-lg font-bold">
+            11
+          </div>
+          <span className="font-bold text-xl">Eleven-Social</span>
+        </Link>
+        <Link href="/" className="text-sm text-zinc-400 hover:text-white">
+          Home
+        </Link>
+      </header>
 
-        {/* Country buttons */}
-        <div className="flex flex-wrap gap-3 mb-6">
-          {countries.map((c) => (
-            <button
-              key={c.key}
-              onClick={() => setCountry(c.key)}
-              
+      <EventsList events={events} />
+
+      <footer className="border-t border-zinc-800 px-6 py-6 text-center text-zinc-500 text-sm">
+        2026 Eleven-Social
+      </footer>
+    </div>
+  )
+}
